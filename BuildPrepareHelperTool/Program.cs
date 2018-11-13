@@ -18,7 +18,7 @@ namespace BuildPrepareHelperTool
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
-            System.Threading.Thread.Sleep(1);
+            //System.Threading.Thread.Sleep(1);
         }
     }
 }
