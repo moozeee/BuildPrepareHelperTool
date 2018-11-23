@@ -74,5 +74,10 @@ namespace BuildPrepareHelperTool
             }
             folderDlg.Dispose();
         }
+
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

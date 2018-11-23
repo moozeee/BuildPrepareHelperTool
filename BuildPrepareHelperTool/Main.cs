@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BuildPrepareHelperTool
@@ -33,16 +34,24 @@ namespace BuildPrepareHelperTool
             {
                 _logger.WriteToConsole("Please wait for a while...\r\n");
                 var BuildNameList = _dHelper.GetProjectInfo(localBuildsPath);
-                _fHelper.CopyFoldersToStorage(BuildNameList, cdnBuildPath);
-                _fHelper.ReplaceBuildFolders(BuildNameList);
-                _fHelper.DeleteUselessFolders(BuildNameList);
-                _fHelper.ArchiveEachProjectToZip(BuildNameList);
+                Thread thread = new Thread(()=> test(BuildNameList, cdnBuildPath));
+                thread.Start();
+                //_fHelper.CopyFoldersToStorage(BuildNameList, cdnBuildPath);
+                //_fHelper.ReplaceBuildFolders(BuildNameList);
+                //_fHelper.DeleteUselessFolders(BuildNameList);
+                // _fHelper.ArchiveEachProjectToZip(BuildNameList);
             }
             else
             {
                 _logger.WriteToConsole("Unfrotanutely, Current folder is empty =( Choose another fodler and try again");
             }
-            
+        }
+
+        private void test(List<string> BuildNameList, string cdnBuildPath)
+        {
+            _fHelper.CopyFoldersToStorage(BuildNameList, cdnBuildPath);
+            _fHelper.ReplaceBuildFolders(BuildNameList);
+            _fHelper.DeleteUselessFolders(BuildNameList);
         }
     }
 }
