@@ -44,11 +44,12 @@ namespace BuildPrepareHelperTool
             this.button1 = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.FinishedFlag = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // ChooseFolderButton
             // 
-            this.ChooseFolderButton.Location = new System.Drawing.Point(12, 1);
+            this.ChooseFolderButton.Location = new System.Drawing.Point(12, 3);
             this.ChooseFolderButton.Name = "ChooseFolderButton";
             this.ChooseFolderButton.Size = new System.Drawing.Size(111, 23);
             this.ChooseFolderButton.TabIndex = 0;
@@ -58,7 +59,8 @@ namespace BuildPrepareHelperTool
             // 
             // FolderPathTextBox
             // 
-            this.FolderPathTextBox.Location = new System.Drawing.Point(129, 4);
+            this.FolderPathTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.FolderPathTextBox.Location = new System.Drawing.Point(129, 5);
             this.FolderPathTextBox.Name = "FolderPathTextBox";
             this.FolderPathTextBox.ReadOnly = true;
             this.FolderPathTextBox.Size = new System.Drawing.Size(756, 20);
@@ -101,7 +103,8 @@ namespace BuildPrepareHelperTool
             // 
             // CDNpath
             // 
-            this.CDNpath.Location = new System.Drawing.Point(129, 43);
+            this.CDNpath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.CDNpath.Location = new System.Drawing.Point(129, 44);
             this.CDNpath.Name = "CDNpath";
             this.CDNpath.ReadOnly = true;
             this.CDNpath.Size = new System.Drawing.Size(756, 20);
@@ -110,7 +113,7 @@ namespace BuildPrepareHelperTool
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 40);
+            this.button1.Location = new System.Drawing.Point(12, 44);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(111, 36);
             this.button1.TabIndex = 7;
@@ -126,11 +129,24 @@ namespace BuildPrepareHelperTool
             this.progressBar1.TabIndex = 8;
             this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
+            // FinishedFlag
+            // 
+            this.FinishedFlag.AutoSize = true;
+            this.FinishedFlag.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.FinishedFlag.Location = new System.Drawing.Point(418, 67);
+            this.FinishedFlag.Name = "FinishedFlag";
+            this.FinishedFlag.Size = new System.Drawing.Size(114, 37);
+            this.FinishedFlag.TabIndex = 9;
+            this.FinishedFlag.Text = "DONE";
+            this.FinishedFlag.Visible = false;
+            this.FinishedFlag.Click += new System.EventHandler(this.FinishedFlag_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(888, 353);
+            this.Controls.Add(this.FinishedFlag);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.CDNpath);
@@ -163,6 +179,7 @@ namespace BuildPrepareHelperTool
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label FinishedFlag;
     }
 }
 

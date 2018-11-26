@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Threading;
 
 namespace BuildPrepareHelperTool
 {
@@ -15,11 +16,39 @@ namespace BuildPrepareHelperTool
             InitializeComponent();
             SetDefaultCDNPathAndBuildPath();
             _main = new Main(this);
+
+            ////BW start
+            backgroundWorker1.DoWork += backgroundWorker1_DoWork;
+            backgroundWorker1.ProgressChanged += backgroundWorker1_ProgressChanged;
+            backgroundWorker1.RunWorkerCompleted += backgroundWorker1_RunWorkerCompleted;  //Tell the user how the process went
+            backgroundWorker1.WorkerReportsProgress = true;
+            backgroundWorker1.WorkerSupportsCancellation = true; //Allow for the process to be cancelled
+            ////BW end
         }
+
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            _main.PrepareBuild(backgroundWorker1);
+            backgroundWorker1.ReportProgress(100);
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            FinishedFlag.Visible = true;
+        }
+        //-------------------------------------------------------------------------------------------------------//
 
         public void UpdateConsoleField(object sender, CustomEventArgs args)
         {
-            ConsoleField.Text = (ConsoleField.Text + Environment.NewLine + args.TextForConsoleField);
+            ConsoleField.Invoke(new MethodInvoker(delegate
+            {
+                ConsoleField.Text = ConsoleField.Text + Environment.NewLine + args.TextForConsoleField;
+            }));
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -42,7 +71,11 @@ namespace BuildPrepareHelperTool
 
         private void PrepareButton_Click(object sender, EventArgs e)
         {
-            _main.PrepareBuild();
+            if (FinishedFlag.Visible)
+            {
+                FinishedFlag.Visible = false;
+            }
+            backgroundWorker1.RunWorkerAsync();
         }
 
         private void SetDefaultCDNPathAndBuildPath()
@@ -54,14 +87,8 @@ namespace BuildPrepareHelperTool
         private void button2_Click(object sender, EventArgs e) { }
         private void label1_Click(object sender, EventArgs e) { }
         public void ConsoleField_TextChanged(object sender, EventArgs e) { }
-        public void CDNpath_TextChanged(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void FolderPathTextBox_TextChanged(object sender, EventArgs e)
-        {
-        }
+        public void CDNpath_TextChanged(object sender, EventArgs e){}
+        private void FolderPathTextBox_TextChanged(object sender, EventArgs e){}
 
         private void button1_Click_1(object sender, EventArgs e)
         {
@@ -75,9 +102,10 @@ namespace BuildPrepareHelperTool
             folderDlg.Dispose();
         }
 
-        private void progressBar1_Click(object sender, EventArgs e)
-        {
+        private void progressBar1_Click(object sender, EventArgs e){}
 
-        }
+        private void textBox1_TextChanged(object sender, EventArgs e){}
+
+        private void FinishedFlag_Click(object sender, EventArgs e){}
     }
 }

@@ -1,11 +1,7 @@
 ﻿using BuildsPrepareTool;
-using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace BuildPrepareHelperTool
 {
@@ -18,6 +14,7 @@ namespace BuildPrepareHelperTool
         public string localBuildsPath;
 
 
+
         public Main(Form1 form)
         {
             _logger = new Logger();
@@ -28,30 +25,25 @@ namespace BuildPrepareHelperTool
             cdnBuildPath = form.CDNpath.Text;
         }
 
-        public void PrepareBuild()
+        public void PrepareBuild(BackgroundWorker bw)
         {
-            if(!Directory.EnumerateDirectories(localBuildsPath).Count().Equals(0))
+            if (!Directory.EnumerateDirectories(localBuildsPath).Count().Equals(0))
             {
+                bw.ReportProgress(10);
                 _logger.WriteToConsole("Please wait for a while...\r\n");
                 var BuildNameList = _dHelper.GetProjectInfo(localBuildsPath);
-                Thread thread = new Thread(()=> test(BuildNameList, cdnBuildPath));
-                thread.Start();
-                //_fHelper.CopyFoldersToStorage(BuildNameList, cdnBuildPath);
-                //_fHelper.ReplaceBuildFolders(BuildNameList);
-                //_fHelper.DeleteUselessFolders(BuildNameList);
-                // _fHelper.ArchiveEachProjectToZip(BuildNameList);
+                _fHelper.CopyFoldersToStorage(BuildNameList, cdnBuildPath);
+                bw.ReportProgress(60);
+                _fHelper.ReplaceBuildFolders(BuildNameList);
+                bw.ReportProgress(70);
+                _fHelper.DeleteUselessFolders(BuildNameList);
+                bw.ReportProgress(80);
+                _fHelper.ArchiveEachProjectToZip(BuildNameList);
             }
             else
             {
                 _logger.WriteToConsole("Unfrotanutely, Current folder is empty =( Choose another fodler and try again");
             }
-        }
-
-        private void test(List<string> BuildNameList, string cdnBuildPath)
-        {
-            _fHelper.CopyFoldersToStorage(BuildNameList, cdnBuildPath);
-            _fHelper.ReplaceBuildFolders(BuildNameList);
-            _fHelper.DeleteUselessFolders(BuildNameList);
         }
     }
 }
