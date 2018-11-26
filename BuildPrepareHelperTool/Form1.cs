@@ -40,6 +40,7 @@ namespace BuildPrepareHelperTool
         private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             FinishedFlag.Visible = true;
+            PrepareButton.Enabled = true;
         }
         //-------------------------------------------------------------------------------------------------------//
 
@@ -75,6 +76,7 @@ namespace BuildPrepareHelperTool
             {
                 FinishedFlag.Visible = false;
             }
+            PrepareButton.Enabled = false;
             backgroundWorker1.RunWorkerAsync();
         }
 
@@ -107,5 +109,25 @@ namespace BuildPrepareHelperTool
         private void textBox1_TextChanged(object sender, EventArgs e){}
 
         private void FinishedFlag_Click(object sender, EventArgs e){}
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

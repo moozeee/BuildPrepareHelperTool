@@ -23,13 +23,30 @@ namespace BuildsPrepareTool
         public List<string> GetProjectInfo(string folderWithBuildsPath)
         {
             List<string> BuildNames = new List<string>();
-            //Program.FolderWithBuildsPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Test\";
-            
+            string[] stringArray = { "debug", "Release", "ReleaseWithLog"};
             var directories = Directory.GetDirectories(folderWithBuildsPath, "*");
             foreach (string item in directories)
             {
-                BuildNames.Add(item);
-                logger.WriteToConsole(item + " was successfully found");
+                var dir = Directory.GetDirectories(item, "*");
+                var correctFolderCounter = 0;
+                foreach (string i in dir)
+                {
+                    if ((i.ToString().Contains("debug") || i.ToString().Contains("Release") || i.ToString().Contains("ReleaseWithLog"))
+                        || (i.ToString().Contains("debug") || i.ToString().Contains("profile") || i.ToString().Contains("release")))
+                    {
+                        correctFolderCounter++;
+                        if (correctFolderCounter == 3)
+                        {
+                            BuildNames.Add(item);
+                            logger.WriteToConsole(item + " was successfully found");
+                        }
+                    }
+                    else
+                    {
+                        logger.WriteToConsole("There is an invalid project structure or broken project. Please check the content of the chosen folder and try again.");
+                        break;
+                    }
+                }
             }
             return BuildNames;
         }

@@ -45,11 +45,14 @@ namespace BuildPrepareHelperTool
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.FinishedFlag = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // ChooseFolderButton
             // 
-            this.ChooseFolderButton.Location = new System.Drawing.Point(12, 3);
+            this.ChooseFolderButton.Location = new System.Drawing.Point(16, 34);
             this.ChooseFolderButton.Name = "ChooseFolderButton";
             this.ChooseFolderButton.Size = new System.Drawing.Size(111, 23);
             this.ChooseFolderButton.TabIndex = 0;
@@ -60,7 +63,7 @@ namespace BuildPrepareHelperTool
             // FolderPathTextBox
             // 
             this.FolderPathTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.FolderPathTextBox.Location = new System.Drawing.Point(129, 5);
+            this.FolderPathTextBox.Location = new System.Drawing.Point(133, 36);
             this.FolderPathTextBox.Name = "FolderPathTextBox";
             this.FolderPathTextBox.ReadOnly = true;
             this.FolderPathTextBox.Size = new System.Drawing.Size(756, 20);
@@ -71,7 +74,7 @@ namespace BuildPrepareHelperTool
             // 
             this.ConsoleField.BackColor = System.Drawing.SystemColors.WindowText;
             this.ConsoleField.ForeColor = System.Drawing.Color.White;
-            this.ConsoleField.Location = new System.Drawing.Point(183, 136);
+            this.ConsoleField.Location = new System.Drawing.Point(187, 216);
             this.ConsoleField.Name = "ConsoleField";
             this.ConsoleField.Size = new System.Drawing.Size(702, 205);
             this.ConsoleField.TabIndex = 2;
@@ -82,7 +85,7 @@ namespace BuildPrepareHelperTool
             // 
             this.PrepareButton.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.PrepareButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 18.25F);
-            this.PrepareButton.Location = new System.Drawing.Point(32, 136);
+            this.PrepareButton.Location = new System.Drawing.Point(36, 216);
             this.PrepareButton.Name = "PrepareButton";
             this.PrepareButton.Size = new System.Drawing.Size(130, 85);
             this.PrepareButton.TabIndex = 3;
@@ -93,7 +96,7 @@ namespace BuildPrepareHelperTool
             // ClearLogBtn
             // 
             this.ClearLogBtn.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.ClearLogBtn.Location = new System.Drawing.Point(32, 308);
+            this.ClearLogBtn.Location = new System.Drawing.Point(36, 388);
             this.ClearLogBtn.Name = "ClearLogBtn";
             this.ClearLogBtn.Size = new System.Drawing.Size(130, 33);
             this.ClearLogBtn.TabIndex = 4;
@@ -104,7 +107,7 @@ namespace BuildPrepareHelperTool
             // CDNpath
             // 
             this.CDNpath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CDNpath.Location = new System.Drawing.Point(129, 44);
+            this.CDNpath.Location = new System.Drawing.Point(133, 104);
             this.CDNpath.Name = "CDNpath";
             this.CDNpath.ReadOnly = true;
             this.CDNpath.Size = new System.Drawing.Size(756, 20);
@@ -113,7 +116,7 @@ namespace BuildPrepareHelperTool
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 44);
+            this.button1.Location = new System.Drawing.Point(16, 104);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(111, 36);
             this.button1.TabIndex = 7;
@@ -123,7 +126,7 @@ namespace BuildPrepareHelperTool
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(183, 107);
+            this.progressBar1.Location = new System.Drawing.Point(187, 187);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(702, 23);
             this.progressBar1.TabIndex = 8;
@@ -133,7 +136,7 @@ namespace BuildPrepareHelperTool
             // 
             this.FinishedFlag.AutoSize = true;
             this.FinishedFlag.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.FinishedFlag.Location = new System.Drawing.Point(418, 67);
+            this.FinishedFlag.Location = new System.Drawing.Point(644, 144);
             this.FinishedFlag.Name = "FinishedFlag";
             this.FinishedFlag.Size = new System.Drawing.Size(114, 37);
             this.FinishedFlag.TabIndex = 9;
@@ -141,11 +144,48 @@ namespace BuildPrepareHelperTool
             this.FinishedFlag.Visible = false;
             this.FinishedFlag.Click += new System.EventHandler(this.FinishedFlag_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(13, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(287, 13);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "1 - Select the folder containing necessary project";
+            this.label1.Click += new System.EventHandler(this.label1_Click_1);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.Location = new System.Drawing.Point(16, 77);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(281, 13);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "2 - Select the MSBuilds folder or let it be default";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.Location = new System.Drawing.Point(16, 162);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(490, 13);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "3 - Click PREPARE button and wait for a few minutes until progress bar become fil" +
+    "led";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(888, 353);
+            this.ClientSize = new System.Drawing.Size(892, 446);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.FinishedFlag);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.button1);
@@ -180,6 +220,9 @@ namespace BuildPrepareHelperTool
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label FinishedFlag;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }
 
