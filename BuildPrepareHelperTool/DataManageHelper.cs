@@ -19,7 +19,7 @@ namespace BuildsPrepareTool
         }
         List<string> AvailableProjects = new List<string>
         {
-            "Jigsaw_8.1", "Mahjong_8.1", "Minesweeper_8.1", "Solitaire_8.1", "Sudoku", "Mahjong_Win10"
+            "Jigsaw_8.1", "Mahjong_8.1", "Minesweeper_8.1", "Solitaire_8.1", "Sudoku", "Mahjong_Win10", "Treasure Hunt"
         };
 
         public bool CheckTheCondiotionsForBuildPrepare()
@@ -33,7 +33,8 @@ namespace BuildsPrepareTool
                     var folderInProject = item.Substring(item.LastIndexOf(@"\"));
                     if (!folderInProject.Contains("_Release")
                         && ((folderInProject.Contains("debug") || folderInProject.Contains("Release") || folderInProject.Contains("ReleaseWithLog"))
-                        || (folderInProject.Contains("debug") || folderInProject.Contains("profile") || folderInProject.Contains("release"))))
+                        || (folderInProject.Contains("debug") || folderInProject.Contains("profile") || folderInProject.Contains("release"))
+                        || (folderInProject.Contains("Debug") || folderInProject.Contains("Profile") || folderInProject.Contains("Release"))))
                     {
                         correctFolderCounter++;
                         if (correctFolderCounter == 3)
@@ -140,6 +141,8 @@ namespace BuildsPrepareTool
                         return ProjectFolder = AvailableProjects[3];
                     case string sudoku when sudoku.Contains("Sudoku"):
                         return ProjectFolder = AvailableProjects[4];
+                    case string th when th.Contains("TreasureHunt"):
+                        return ProjectFolder = AvailableProjects[6];
                 }
             }
             return ProjectFolder;
