@@ -8,47 +8,53 @@ namespace BuildsPrepareTool
 {
     public class DataManageHelper
     {
-        private Logger logger;
-        public DataManageHelper(Logger log)
+        private Logger _logger;
+        private Main _main;
+        public bool isWin10flag;
+
+        public DataManageHelper(Logger log, Main main)
         {
-            logger = log;
+            _logger = log;
+            _main = main;
         }
         List<string> AvailableProjects = new List<string>
         {
             "Jigsaw_8.1", "Mahjong_8.1", "Minesweeper_8.1", "Solitaire_8.1", "Sudoku", "Mahjong_Win10"
         };
-        
 
-        public bool isWin10flag;
-        public List<string> GetProjectInfo(string folderWithBuildsPath)
+        public bool CheckTheCondiotionsForBuildPrepare()
         {
-            List<string> BuildNames = new List<string>();
-            string[] stringArray = { "debug", "Release", "ReleaseWithLog"};
-            var directories = Directory.GetDirectories(folderWithBuildsPath, "*");
-            foreach (string item in directories)
+            try
             {
-                var dir = Directory.GetDirectories(item, "*");
+                var directories = Directory.GetDirectories(_main._params.buildServerBuildsPath, "*");
                 var correctFolderCounter = 0;
-                foreach (string i in dir)
+                foreach (string item in directories)
                 {
-                    if ((i.ToString().Contains("debug") || i.ToString().Contains("Release") || i.ToString().Contains("ReleaseWithLog"))
-                        || (i.ToString().Contains("debug") || i.ToString().Contains("profile") || i.ToString().Contains("release")))
+                    var folderInProject = item.Substring(item.LastIndexOf(@"\"));
+                    if (!folderInProject.Contains("_Release")
+                        && ((folderInProject.Contains("debug") || folderInProject.Contains("Release") || folderInProject.Contains("ReleaseWithLog"))
+                        || (folderInProject.Contains("debug") || folderInProject.Contains("profile") || folderInProject.Contains("release"))))
                     {
                         correctFolderCounter++;
                         if (correctFolderCounter == 3)
                         {
-                            BuildNames.Add(item);
-                            logger.WriteToConsole(item + " was successfully found");
+                            _logger.WriteToConsole("Project " + _main._params.buildServerBuildsPath + " was found =)");
+                            return true;
                         }
                     }
                     else
                     {
-                        logger.WriteToConsole("There is an invalid project structure or broken project. Please check the content of the chosen folder and try again.");
+                        _logger.WriteToConsole("Unfrotanutely, Current folder is empty =( Choose another folder and try again");
                         break;
                     }
                 }
             }
-            return BuildNames;
+            catch (DirectoryNotFoundException e)
+            {
+                _logger.WriteToConsole("Unfrotanutely, Current folder is empty =( Choose another folder and try again");
+                return false;
+            }
+            return false;
         }
 
         //Method determines the Release folder in local project for creating the folder
@@ -64,12 +70,28 @@ namespace BuildsPrepareTool
                 if (folder.Contains("W10") && folder.Contains("RELEASE") && folder.Contains("Release") && !folder.Contains("Log"))
                 {
                     ReleasePath = folder;
-                    InReleasePathFolders = Directory.GetDirectories(ReleasePath);
+                    try
+                    {
+                        InReleasePathFolders = Directory.GetDirectories(ReleasePath);
+                    }
+                    catch (DirectoryNotFoundException e)
+                    {
+                        _logger.WriteToConsole("There is no build in folder. Please check it and try again");
+                        break;
+                    }
                 }
                 if (folder.Contains("elease") && !folder.Contains("RELEASE") && !folder.Contains("rofile") && !folder.Contains("ebug"))
                 {
                     ReleasePath = folder;
-                    InReleasePathFolders = Directory.GetDirectories(ReleasePath + "\\Package_release\\");
+                    try
+                    {
+                        InReleasePathFolders = Directory.GetDirectories(ReleasePath + "\\Package_release\\");
+                    }
+                    catch (DirectoryNotFoundException e)
+                    {
+                        _logger.WriteToConsole("There is no build in folder. Please check it and try again");
+                        break;
+                    }
                 }
                 if (InReleasePathFolders.Length > 0)
                 {
@@ -137,11 +159,10 @@ namespace BuildsPrepareTool
                 ReleasePath = tempReleasePath.First();
                 buildFinalPaths.Add(ProfilePath);
                 buildFinalPaths.Add(ReleasePath);
-                logger.WriteToConsole("Release and Profile folders were found");
             }
             else
             {
-                logger.WriteToConsole("There are too many folders in profile or release folders");
+                _logger.WriteToConsole("There are too many folders in profile or release folders");
             }
             return buildFinalPaths;
         }

@@ -1,4 +1,5 @@
 ﻿using BuildsPrepareTool;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -8,41 +9,39 @@ namespace BuildPrepareHelperTool
     public class Main
     {
         private Logger _logger;
-        private DataManageHelper _dHelper;
-        private FileManageHelper _fHelper;
-        public string cdnBuildPath;
-        public string localBuildsPath;
+        public DataManageHelper _dHelper;
+        public FileManageHelper _fHelper;
+        public Params _params;
 
 
 
-        public Main(Form1 form)
+        public Main(MainForm form)
         {
             _logger = new Logger();
             _logger.MyEvent += form.UpdateConsoleField;
-            _dHelper = new DataManageHelper(_logger);
-            _fHelper = new FileManageHelper(_logger);
-            localBuildsPath = form.FolderPathTextBox.Text;
-            cdnBuildPath = form.CDNpath.Text;
+            _params = new Params();
+            _dHelper = new DataManageHelper(_logger, this);
+            _fHelper = new FileManageHelper(_logger, this);
+            _params.buildServerBuildsPath = form.FolderPathTextBox.Text;
+            _params.cdnBuildPath = form.CDNpathTextBox.Text;
+            _params.basicLocalBuildPath = form.LocalBuildPathTextBox.Text;
         }
+
 
         public void PrepareBuild(BackgroundWorker bw)
         {
-            if (!Directory.EnumerateDirectories(localBuildsPath).Count().Equals(0))
+            if (_dHelper.CheckTheCondiotionsForBuildPrepare())
             {
+                _logger.WriteToConsole("Chosen build looks correct. Going to Copy it to the MsBuilds. Please wait for a while...");
                 bw.ReportProgress(10);
-                _logger.WriteToConsole("Please wait for a while...\r\n");
-                var BuildNameList = _dHelper.GetProjectInfo(localBuildsPath);
-                _fHelper.CopyFoldersToStorage(BuildNameList, cdnBuildPath);
-                bw.ReportProgress(60);
-                _fHelper.ReplaceBuildFolders(BuildNameList);
+                _fHelper.CopyFoldersToStorageAndLocally(_params.buildServerBuildsPath, _params.cdnBuildPath, _params.basicLocalBuildPath);
                 bw.ReportProgress(70);
-                _fHelper.DeleteUselessFolders(BuildNameList);
+                _fHelper.ReplaceBuildFolders(_params.finalLocalBuildPath);
                 bw.ReportProgress(80);
-                _fHelper.ArchiveEachProjectToZip(BuildNameList);
-            }
-            else
-            {
-                _logger.WriteToConsole("Unfrotanutely, Current folder is empty =( Choose another fodler and try again");
+                _fHelper.DeleteUselessFolders(_params.finalLocalBuildPath);
+                bw.ReportProgress(90);
+                _fHelper.ArchiveEachProjectToZip(_params.finalLocalBuildPath);
+                _fHelper.ClearFolderAfterZip(_params.finalLocalBuildPath);
             }
         }
     }

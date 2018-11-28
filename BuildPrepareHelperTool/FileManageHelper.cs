@@ -1,4 +1,5 @@
 ﻿using BuildPrepareHelperTool;
+using BuildPrepareHelperTool.models;
 using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
@@ -11,75 +12,111 @@ namespace BuildsPrepareTool
     public class FileManageHelper
     {
         private Logger _logger;
-        private DataManageHelper _dHelper;
+        //private DataManageHelper _dHelper;
+        private Main _main;
 
-        public FileManageHelper(Logger log)
+        public FileManageHelper(Logger log, Main main)
         {
             _logger = log;
-            _dHelper = new DataManageHelper(_logger);
+            _main = main;
         }
-
 
         //Method makes the copy of the Project from the local Test to the Storage
-        public void CopyFoldersToStorage(List<string> list, string cdnPath)
+        public void CopyFoldersToStorageAndLocally(string buildPath, string cdnPath, string basicLocalPath)
         {
-            list.ForEach(item =>
+            var fileName = _main._dHelper.GetNecessaryNameForStorage(buildPath);
+            var currentFolderModel = CreateFolders(buildPath, fileName, cdnPath, basicLocalPath);
+            try
             {
-                var fileName = _dHelper.GetNecessaryNameForStorage(item);
-                var finalPath = CreateFolderInNetworkDrive(item, fileName, cdnPath);
-                FileSystem.CopyDirectory(item, finalPath);
-                _logger.WriteToConsole("\r\nBuilds Path to the Storage: " + finalPath + "\r\n");
-            });
+                FileSystem.CopyDirectory(buildPath, currentFolderModel.finalLocalFolderPath);
+                _logger.WriteToConsole("Local Build's Path: " + currentFolderModel.finalLocalFolderPath);
+                FileSystem.CopyDirectory(buildPath, currentFolderModel.finalStorageFolderPath);
+                _logger.WriteToConsole("Build's Path to the Storage: " + currentFolderModel.finalStorageFolderPath);
+            }
+            catch (DirectoryNotFoundException e)
+            {
+                _logger.WriteToConsole("Unfrotanutely, Current folder is not exist =( Choose another folder and try again");
+            }
         }
-        
+
         //Method creates folder with project version in name in kr-fs/Storage
-        public string CreateFolderInNetworkDrive(string ProjectName, string name, string cdnPath)
+        public FinalBuildDirectoriesModel CreateFolders(string ProjectName, string name, string cdnPath, string basicLocalPath)
         {
-            var projectName = _dHelper.GetNecessaryFolderName(ProjectName);
-            var projectVersion = name.Substring(name.LastIndexOf("_") + 1);
-            var finalFolderPath = "";
+            var projectName = _main._dHelper.GetNecessaryFolderName(ProjectName);
+            var finalFolderName = ProjectName.Substring(ProjectName.LastIndexOf("\\") + 1);
+            var projectVersion = "";
+            var _finalStorageFolderPath = "";
+            var _finalLocalFolderPath = basicLocalPath;
             var currentDate = DateTime.Today.ToString("ddMMyyyy");
 
-            if (_dHelper.isWin10flag)
+            if (_main._dHelper.isWin10flag)
             {
+                projectVersion = name.Substring(name.IndexOf("_") + 1);
                 var Win10_final_dir_name = ProjectName.Substring(ProjectName.LastIndexOf(@"\") + 1);
                 var Win10_ver = projectVersion.Substring(0, 3);
-                finalFolderPath = cdnPath + @"\" + projectName + "\\" + Win10_ver + "\\" + currentDate + "\\" + Win10_final_dir_name + "\\";
+                _finalStorageFolderPath = cdnPath + @"\" + projectName + "\\" + Win10_ver + "\\" + currentDate + "\\" + Win10_final_dir_name;
             }
             else
             {
-                var finalFolderName = ProjectName.Substring(ProjectName.IndexOf("Test\\") + 5);
-                finalFolderPath = cdnPath + @"\" + projectName + "\\" + projectVersion + "\\" + finalFolderName + "\\";
-
+                projectVersion = name.Substring(name.LastIndexOf("_") + 1);
+                _finalStorageFolderPath = cdnPath + @"\" + projectName + "\\" + projectVersion + "\\" + finalFolderName + "\\";
             }
-            DirectoryInfo directoryInfo = Directory.CreateDirectory(finalFolderPath);
-            return finalFolderPath;
+
+            _finalLocalFolderPath = _finalLocalFolderPath + "\\" +finalFolderName;
+            DirectoryInfo storageDirectoryInfo = Directory.CreateDirectory(_finalStorageFolderPath);
+            DirectoryInfo localDirectoryInfo = Directory.CreateDirectory(_finalLocalFolderPath);
+
+            var currentDiretoryModel = new FinalBuildDirectoriesModel
+            {
+                finalLocalFolderPath = _finalLocalFolderPath,
+                finalStorageFolderPath = _finalStorageFolderPath
+            };
+            _main._params.finalLocalBuildPath = currentDiretoryModel.finalLocalFolderPath;
+            return currentDiretoryModel;
         }
 
         //Methods builds paths for final Profile and Release builds for each project
-        public void ReplaceBuildFolders(List<string> List)
+        public void ReplaceBuildFolders(string LocalBuildPath)
         {
-            if (!_dHelper.isWin10flag)
+            if (!_main._dHelper.isWin10flag)
             {
-                foreach (string item in List)
+                var finalBuildPaths = _main._dHelper.GetFinalDirectories(LocalBuildPath);
+                foreach (string buildPath in finalBuildPaths)
                 {
-                    var finalBuildPaths = _dHelper.GetFinalDirectories(item);
-                    foreach (string buildPath in finalBuildPaths)
+                    if (buildPath.Contains(@"\release\"))
                     {
-                        if (buildPath.Contains(@"\release\"))
-                        {
-                            var currentReleaseFolderPath = buildPath;
-                            var newReleaseFolder = buildPath.Substring(0, buildPath.IndexOf(@"release") + 7);
-                            MoveContentsOfDirectory(currentReleaseFolderPath, newReleaseFolder);
-                        }
-                        else
-                        {
-                            var currentProfileFolderPath = buildPath;
-                            var newProfileFolder = currentProfileFolderPath.Substring(0, currentProfileFolderPath.IndexOf(@"profile") + 7);
-                            MoveContentsOfDirectory(currentProfileFolderPath, newProfileFolder);
-                        }
+                        var currentReleaseFolderPath = buildPath;
+                        var newReleaseFolder = buildPath.Substring(0, buildPath.IndexOf(@"release") + 7);
+                        MoveContentsOfDirectory(currentReleaseFolderPath, newReleaseFolder);
                     }
-                    _logger.WriteToConsole("All files from Package_profile and Package_release folders were moved one level higher \r\n");
+                    else
+                    {
+                        var currentProfileFolderPath = buildPath;
+                        var newProfileFolder = currentProfileFolderPath.Substring(0, currentProfileFolderPath.IndexOf(@"profile") + 7);
+                        MoveContentsOfDirectory(currentProfileFolderPath, newProfileFolder);
+                    }
+                }
+                _logger.WriteToConsole("All files from Package_profile and Package_release folders were moved one level higher ");
+            }
+            else
+            {
+                RenameFoldersInWin10Project(LocalBuildPath);
+            }
+        }
+
+        private void RenameFoldersInWin10Project(string LocalBuildPath)
+        {
+            var baseDirectories = Directory.GetDirectories(LocalBuildPath, "*");
+            foreach (string buildPath in baseDirectories)
+            {
+                var inRootDiretories = Directory.GetDirectories(buildPath, "*");
+                foreach (string curDir in inRootDiretories)
+                {
+                    if (curDir.Contains("_Test"))
+                    {
+                        var finDir = curDir.Substring(0, curDir.LastIndexOf("_"));
+                        Directory.Move(curDir, finDir);
+                    }
                 }
             }
         }
@@ -113,29 +150,32 @@ namespace BuildsPrepareTool
             return finalDir.ToString();
         }
 
-        public void DeleteUselessFolders(List<string> list)
+        public void DeleteUselessFolders(string LocalBuildPath)
         {
-            if (!_dHelper.isWin10flag)
+            if (!_main._dHelper.isWin10flag)
             {
-                foreach (string item in list)
+                List<string> FoldersToDelete = new List<string>();
+                FoldersToDelete.Add(LocalBuildPath + @"\debug\");
+                FoldersToDelete.Add(LocalBuildPath + @"\profile\Package_profile");
+                FoldersToDelete.Add(LocalBuildPath + @"\profile\x86_ARM");
+                FoldersToDelete.Add(LocalBuildPath + @"\release\Package_release");
+                FoldersToDelete.Add(LocalBuildPath + @"\release\x86_ARM");
+                foreach (string line in FoldersToDelete)
                 {
-                    List<string> FoldersToDelete = new List<string>();
-                    FoldersToDelete.Add(item + @"\debug\");
-                    FoldersToDelete.Add(item + @"\profile\Package_profile");
-                    FoldersToDelete.Add(item + @"\profile\x86_ARM");
-                    FoldersToDelete.Add(item + @"\release\Package_release");
-                    FoldersToDelete.Add(item + @"\release\x86_ARM");
-                    foreach (string line in FoldersToDelete)
-                    {
-                        DeleteFolder(line);
-                    }
+                    DeleteFolder(line);
                 }
             }
             else
             {
-                DeleteFolder(list[0] + @"\debug\");
+                DeleteFolder(LocalBuildPath + @"\debug\");
             }
-            _logger.WriteToConsole("Useless directories were successfully deleted");
+            _logger.WriteToConsole(@"Useless directories were successfully deleted. Going to Archive project to ZIP.");
+        }
+
+        public void ClearFolderAfterZip(string LocalBuildPath)
+        {
+            DeleteFolder(LocalBuildPath);
+            _logger.WriteToConsole("Local folder was successfully cleared\r\n");
         }
 
         //Methods deletes folder by current path
@@ -151,15 +191,12 @@ namespace BuildsPrepareTool
         }
 
         //Methods archives folders from list
-        public void ArchiveEachProjectToZip(List<string> list)
+        public void ArchiveEachProjectToZip(string LocalBuildPath)
         {
-            list.ForEach(item =>
-            {
-                var CurrentBuildsPath = item;
-                var TargetFolder = item + ".zip";
-                ZipFile.CreateFromDirectory(CurrentBuildsPath, TargetFolder);
-                _logger.WriteToConsole(item + " folder was successfully archived.\r\n" + "Path to zip file: " + TargetFolder);
-            });
+            var CurrentBuildsPath = LocalBuildPath;
+            var TargetFolder = LocalBuildPath + ".zip";
+            ZipFile.CreateFromDirectory(CurrentBuildsPath, TargetFolder);
+            _logger.WriteToConsole("Build was successfully archived." + "Path to zip file: " + TargetFolder);
         }
     }
 }

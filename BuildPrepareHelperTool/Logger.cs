@@ -8,7 +8,7 @@ namespace BuildPrepareHelperTool
         public  event System.EventHandler<CustomEventArgs> MyEvent;
         public  void WriteToConsole(string s)
         {
-            MyEvent?.Invoke(this, new CustomEventArgs(s));
+            MyEvent?.Invoke(this, new CustomEventArgs("\r\n"+s));
         }
     }
 }
