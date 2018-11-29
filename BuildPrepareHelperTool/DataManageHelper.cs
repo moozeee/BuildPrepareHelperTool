@@ -1,5 +1,4 @@
 ﻿using BuildPrepareHelperTool;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,7 +18,7 @@ namespace BuildsPrepareTool
         }
         List<string> AvailableProjects = new List<string>
         {
-            "Jigsaw_8.1", "Mahjong_8.1", "Minesweeper_8.1", "Solitaire_8.1", "Sudoku", "Mahjong_Win10", "Treasure Hunt"
+            "Jigsaw_8.1", "Mahjong_8.1", "Minesweeper_8.1", "Solitaire_8.1", "Sudoku", "Mahjong", "Treasure Hunt"
         };
 
         public bool CheckTheCondiotionsForBuildPrepare()

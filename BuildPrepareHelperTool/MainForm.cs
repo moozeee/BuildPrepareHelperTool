@@ -1,9 +1,6 @@
-﻿using BuildsPrepareTool;
-using System;
-using System.ComponentModel;
+﻿using System;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using System.Threading;
 using System.Drawing;
 
 namespace BuildPrepareHelperTool
@@ -41,13 +38,22 @@ namespace BuildPrepareHelperTool
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            FinishedFlag.Visible = true;
             PrepareButton.Enabled = true;
             ChooseFolderButton.Enabled = true;
             ChooseLocalFolderForZIPButton.Enabled = true;
             ChooseMsBuildsFolderButton.Enabled = true;
             PrepareButton.BackColor = Color.LightSkyBlue;
-            
+            if (!_main._params.successfull)
+            {
+                FinishedFlag.Text = "ERROR";
+                FinishedFlag.ForeColor = Color.Red;
+            }
+            else
+            {
+                LocalZipPathLink.Visible = true;
+                StorageLinkLabel.Visible = true;
+            }
+            FinishedFlag.Visible = true;
         }
 
         public void UpdateConsoleField(object sender, CustomEventArgs args)
@@ -92,10 +98,10 @@ namespace BuildPrepareHelperTool
 
         private void SetDefaultCDNPathAndBuildPath()
         {
-            CDNpathTextBox.Text = @"\\kr-fs\Storage\Teams\MS\MS-Builds\";
+            CDNpathTextBox.Text = @"\\kr-fs\Storage\Teams\MS\MS-Builds";
             //CDNpathTextBox.Text = @"\\kr-fs\Storage\Temporary\vkhomyak\MsBuilds\";
-            FolderPathTextBox.Text = @"\\kr-tfs\AutoBuildsDrop\";
-            LocalBuildPathTextBox.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\MyDeliveryBuild\";
+            FolderPathTextBox.Text = @"\\kr-tfs\AutoBuildsDrop";
+            LocalBuildPathTextBox.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\MyDeliveryBuild";
         }
 
         private void button2_Click(object sender, EventArgs e) { }
@@ -135,5 +141,20 @@ namespace BuildPrepareHelperTool
         private void label2_Click(object sender, EventArgs e){}
         private void pictureBox1_Click(object sender, EventArgs e){}
         private void label3_Click(object sender, EventArgs e) {}
+
+        private void StorageLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.StorageLinkLabel.LinkVisited = true;
+            // Navigate to a URL.
+            System.Diagnostics.Process.Start(_main._params.cdnBuildPath);
+        }
+
+        private void LocalZipPathLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.StorageLinkLabel.LinkVisited = true;
+            // Navigate to a URL.
+            System.Diagnostics.Process.Start(_main._params.basicLocalBuildPath);
+        }
     }
 }
+

@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Net;
 
 namespace BuildsPrepareTool
 {
@@ -47,24 +46,22 @@ namespace BuildsPrepareTool
             var projectVersion = "";
             var _finalStorageFolderPath = "";
             var _finalLocalFolderPath = basicLocalPath;
-            var currentDate = DateTime.Today.ToString("ddMMyyyy");
+            var currentDate = DateTime.Today.ToString("ddMMyy");
 
             if (_main._dHelper.isWin10flag)
             {
                 projectVersion = name.Substring(name.IndexOf("_") + 1);
                 var Win10_final_dir_name = ProjectName.Substring(ProjectName.LastIndexOf(@"\") + 1);
                 var Win10_ver = projectVersion.Substring(0, 3);
-                _finalStorageFolderPath = cdnPath + @"\" + projectName + "\\" + Win10_ver + "\\" + currentDate + "\\" + Win10_final_dir_name;
+                _finalStorageFolderPath = cdnPath + @"\Win10\" + projectName + @"\" + Win10_ver + @"\" + currentDate + @"\" + Win10_final_dir_name;
             }
             else
             {
                 projectVersion = name.Substring(name.LastIndexOf("_") + 1);
-                _finalStorageFolderPath = cdnPath + @"\" + projectName + "\\" + projectVersion + "\\" + finalFolderName + "\\";
+                _finalStorageFolderPath = cdnPath + @"\" + projectName + @"\" + projectVersion + @"\" + finalFolderName;
             }
 
             _finalLocalFolderPath = _finalLocalFolderPath + "\\" +finalFolderName;
-            DirectoryInfo storageDirectoryInfo = Directory.CreateDirectory(_finalStorageFolderPath);
-            DirectoryInfo localDirectoryInfo = Directory.CreateDirectory(_finalLocalFolderPath);
 
             var currentDiretoryModel = new FinalBuildDirectoriesModel
             {
@@ -197,6 +194,7 @@ namespace BuildsPrepareTool
             var TargetFolder = LocalBuildPath + ".zip";
             ZipFile.CreateFromDirectory(CurrentBuildsPath, TargetFolder);
             _logger.WriteToConsole("Build was successfully archived." + "Path to zip file: " + TargetFolder);
+            _main._params.successfull = true;
         }
     }
 }

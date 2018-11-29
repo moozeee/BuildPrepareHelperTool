@@ -1,8 +1,5 @@
 ﻿using BuildsPrepareTool;
-using System;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 
 namespace BuildPrepareHelperTool
 {
@@ -42,6 +39,10 @@ namespace BuildPrepareHelperTool
                 bw.ReportProgress(90);
                 _fHelper.ArchiveEachProjectToZip(_params.finalLocalBuildPath);
                 _fHelper.ClearFolderAfterZip(_params.finalLocalBuildPath);
+            }
+            else
+            {
+                _params.successfull = false;
             }
         }
     }

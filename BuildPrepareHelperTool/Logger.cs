@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-
-namespace BuildPrepareHelperTool
+﻿namespace BuildPrepareHelperTool
 {
     public  class Logger
     {

@@ -51,6 +51,8 @@ namespace BuildPrepareHelperTool
             this.label4 = new System.Windows.Forms.Label();
             this.ChooseLocalFolderForZIPButton = new System.Windows.Forms.Button();
             this.LocalBuildPathTextBox = new System.Windows.Forms.TextBox();
+            this.StorageLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.LocalZipPathLink = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // ChooseFolderButton
@@ -139,11 +141,11 @@ namespace BuildPrepareHelperTool
             // 
             this.FinishedFlag.AutoSize = true;
             this.FinishedFlag.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.FinishedFlag.Location = new System.Drawing.Point(644, 211);
+            this.FinishedFlag.Location = new System.Drawing.Point(564, 211);
             this.FinishedFlag.Name = "FinishedFlag";
-            this.FinishedFlag.Size = new System.Drawing.Size(114, 37);
+            this.FinishedFlag.Size = new System.Drawing.Size(144, 37);
             this.FinishedFlag.TabIndex = 9;
-            this.FinishedFlag.Text = "DONE";
+            this.FinishedFlag.Text = "DONE!!!";
             this.FinishedFlag.Visible = false;
             this.FinishedFlag.Click += new System.EventHandler(this.FinishedFlag_Click);
             // 
@@ -210,11 +212,39 @@ namespace BuildPrepareHelperTool
             this.LocalBuildPathTextBox.Size = new System.Drawing.Size(756, 20);
             this.LocalBuildPathTextBox.TabIndex = 14;
             // 
+            // StorageLinkLabel
+            // 
+            this.StorageLinkLabel.AutoSize = true;
+            this.StorageLinkLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.StorageLinkLabel.Location = new System.Drawing.Point(714, 211);
+            this.StorageLinkLabel.Name = "StorageLinkLabel";
+            this.StorageLinkLabel.Size = new System.Drawing.Size(88, 17);
+            this.StorageLinkLabel.TabIndex = 16;
+            this.StorageLinkLabel.TabStop = true;
+            this.StorageLinkLabel.Text = "Storage Link";
+            this.StorageLinkLabel.Visible = false;
+            this.StorageLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.StorageLinkLabel_LinkClicked);
+            // 
+            // LocalZipPathLink
+            // 
+            this.LocalZipPathLink.AutoSize = true;
+            this.LocalZipPathLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.LocalZipPathLink.Location = new System.Drawing.Point(714, 229);
+            this.LocalZipPathLink.Name = "LocalZipPathLink";
+            this.LocalZipPathLink.Size = new System.Drawing.Size(100, 17);
+            this.LocalZipPathLink.TabIndex = 17;
+            this.LocalZipPathLink.TabStop = true;
+            this.LocalZipPathLink.Text = "Local ZIP Path";
+            this.LocalZipPathLink.Visible = false;
+            this.LocalZipPathLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LocalZipPathLink_LinkClicked);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(892, 491);
+            this.Controls.Add(this.LocalZipPathLink);
+            this.Controls.Add(this.StorageLinkLabel);
             this.Controls.Add(this.ChooseLocalFolderForZIPButton);
             this.Controls.Add(this.LocalBuildPathTextBox);
             this.Controls.Add(this.label4);
@@ -261,6 +291,8 @@ namespace BuildPrepareHelperTool
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button ChooseLocalFolderForZIPButton;
         public System.Windows.Forms.TextBox LocalBuildPathTextBox;
+        private System.Windows.Forms.LinkLabel StorageLinkLabel;
+        private System.Windows.Forms.LinkLabel LocalZipPathLink;
     }
 }
 
