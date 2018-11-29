@@ -87,6 +87,8 @@ namespace BuildPrepareHelperTool
             if (FinishedFlag.Visible)
             {
                 FinishedFlag.Visible = false;
+                LocalZipPathLink.Visible = false;
+                StorageLinkLabel.Visible = false;
             }
             PrepareButton.Enabled = false;
             ChooseFolderButton.Enabled = false;
@@ -146,7 +148,7 @@ namespace BuildPrepareHelperTool
         {
             this.StorageLinkLabel.LinkVisited = true;
             // Navigate to a URL.
-            System.Diagnostics.Process.Start(_main._params.cdnBuildPath);
+            System.Diagnostics.Process.Start(_main._params.linkToStorageBuild);
         }
 
         private void LocalZipPathLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

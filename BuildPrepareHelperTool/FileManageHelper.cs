@@ -69,6 +69,7 @@ namespace BuildsPrepareTool
                 finalStorageFolderPath = _finalStorageFolderPath
             };
             _main._params.finalLocalBuildPath = currentDiretoryModel.finalLocalFolderPath;
+            _main._params.linkToStorageBuild = currentDiretoryModel.finalStorageFolderPath;
             return currentDiretoryModel;
         }
 
