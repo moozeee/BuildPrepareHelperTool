@@ -5,7 +5,7 @@ namespace BuildPrepareHelperTool
 {
     public class Main
     {
-        private Logger _logger;
+        public Logger _logger;
         public DataManageHelper _dHelper;
         public FileManageHelper _fHelper;
         public Params _params;

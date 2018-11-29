@@ -148,14 +148,28 @@ namespace BuildPrepareHelperTool
         {
             this.StorageLinkLabel.LinkVisited = true;
             // Navigate to a URL.
-            System.Diagnostics.Process.Start(_main._params.linkToStorageBuild);
+            try
+            {
+                System.Diagnostics.Process.Start(_main._params.linkToStorageBuild);
+            }
+            catch (Exception ex)
+            {
+                _main._logger.WriteToConsole("Unfortunately, folder is not available because of some strange reason...maybe it was deleted???");
+            }
         }
 
         private void LocalZipPathLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.StorageLinkLabel.LinkVisited = true;
             // Navigate to a URL.
-            System.Diagnostics.Process.Start(_main._params.basicLocalBuildPath);
+            try
+            {
+                System.Diagnostics.Process.Start(_main._params.basicLocalBuildPath);
+            }
+            catch (Exception ex)
+            {
+                _main._logger.WriteToConsole("Unfortunately, folder is not available because of some strange reason...maybe it was deleted???");
+            }
         }
     }
 }
