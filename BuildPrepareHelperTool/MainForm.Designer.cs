@@ -211,6 +211,7 @@ namespace BuildPrepareHelperTool
             this.LocalBuildPathTextBox.ReadOnly = true;
             this.LocalBuildPathTextBox.Size = new System.Drawing.Size(756, 20);
             this.LocalBuildPathTextBox.TabIndex = 14;
+            this.LocalBuildPathTextBox.TextChanged += new System.EventHandler(this.LocalBuildPathTextBox_TextChanged);
             // 
             // StorageLinkLabel
             // 

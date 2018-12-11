@@ -14,15 +14,9 @@ namespace BuildPrepareHelperTool
             InitializeComponent();
             SetDefaultCDNPathAndBuildPath();
             _main = new Main(this);
-            PrepareButton.BackColor = Color.LightSkyBlue;
+            BW_Start();
 
-            ////BW start
-            backgroundWorker1.DoWork += backgroundWorker1_DoWork;
-            backgroundWorker1.ProgressChanged += backgroundWorker1_ProgressChanged;
-            backgroundWorker1.RunWorkerCompleted += backgroundWorker1_RunWorkerCompleted;  //Tell the user how the process went
-            backgroundWorker1.WorkerReportsProgress = true;
-            backgroundWorker1.WorkerSupportsCancellation = true; //Allow for the process to be cancelled
-            ////BW end
+            PrepareButton.BackColor = Color.LightSkyBlue;
         }
 
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
@@ -34,6 +28,17 @@ namespace BuildPrepareHelperTool
         private void backgroundWorker1_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
         {
             progressBar1.Value = e.ProgressPercentage;
+        }
+
+        private void BW_Start()
+        {
+            ////BW start
+            backgroundWorker1.DoWork += backgroundWorker1_DoWork;
+            backgroundWorker1.ProgressChanged += backgroundWorker1_ProgressChanged;
+            backgroundWorker1.RunWorkerCompleted += backgroundWorker1_RunWorkerCompleted;  //Tell the user how the process went
+            backgroundWorker1.WorkerReportsProgress = true;
+            backgroundWorker1.WorkerSupportsCancellation = true; //Allow for the process to be cancelled
+            ////BW end
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
@@ -170,6 +175,11 @@ namespace BuildPrepareHelperTool
             {
                 _main._logger.WriteToConsole("Unfortunately, folder is not available because of some strange reason...maybe it was deleted???");
             }
+        }
+
+        private void LocalBuildPathTextBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

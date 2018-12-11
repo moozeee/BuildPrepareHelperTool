@@ -33,8 +33,11 @@ namespace BuildPrepareHelperTool
                 bw.ReportProgress(10);
                 _fHelper.CopyFoldersToStorageAndLocally(_params.buildServerBuildsPath, _params.cdnBuildPath, _params.basicLocalBuildPath);
                 bw.ReportProgress(70);
-                _fHelper.ReplaceBuildFolders(_params.finalLocalBuildPath);
-                bw.ReportProgress(80);
+                //if (!_params.buildServerBuildsPath.Contains("TreasureHunt"))
+                //{
+                    _fHelper.ReplaceBuildFolders(_params.finalLocalBuildPath);
+                    bw.ReportProgress(80);
+                //}
                 _fHelper.DeleteUselessFolders(_params.finalLocalBuildPath);
                 bw.ReportProgress(90);
                 _fHelper.ArchiveEachProjectToZip(_params.finalLocalBuildPath);

@@ -9,7 +9,8 @@ namespace BuildsPrepareTool
     {
         private Logger _logger;
         private Main _main;
-        public bool isWin10flag;
+        public bool isWin10flag = false;
+        public bool hasCorrectStructureFlag;
 
         public DataManageHelper(Logger log, Main main)
         {
@@ -85,7 +86,15 @@ namespace BuildsPrepareTool
                     ReleasePath = folder;
                     try
                     {
-                        InReleasePathFolders = Directory.GetDirectories(ReleasePath + "\\Package_release\\");
+                        if (folder.Contains("TreasureHunt"))
+                        {
+                            InReleasePathFolders = Directory.GetDirectories(ReleasePath);
+                        }
+                        else
+                        {
+
+                            InReleasePathFolders = Directory.GetDirectories(ReleasePath + "\\Package_release\\");
+                        }
                     }
                     catch (DirectoryNotFoundException e)
                     {

@@ -76,7 +76,7 @@ namespace BuildsPrepareTool
         //Methods builds paths for final Profile and Release builds for each project
         public void ReplaceBuildFolders(string LocalBuildPath)
         {
-            if (!_main._dHelper.isWin10flag)
+            if (!_main._dHelper.isWin10flag && !_main._params.buildServerBuildsPath.Contains("TreasureHunt"))
             {
                 var finalBuildPaths = _main._dHelper.GetFinalDirectories(LocalBuildPath);
                 foreach (string buildPath in finalBuildPaths)
@@ -98,11 +98,11 @@ namespace BuildsPrepareTool
             }
             else
             {
-                RenameFoldersInWin10Project(LocalBuildPath);
+                RenameFoldersInProject(LocalBuildPath);
             }
         }
 
-        private void RenameFoldersInWin10Project(string LocalBuildPath)
+        private void RenameFoldersInProject(string LocalBuildPath)
         {
             var baseDirectories = Directory.GetDirectories(LocalBuildPath, "*");
             foreach (string buildPath in baseDirectories)
