@@ -10,7 +10,6 @@ namespace BuildsPrepareTool
         private Logger _logger;
         private Main _main;
         public bool isWin10flag = false;
-        public bool hasCorrectStructureFlag;
 
         public DataManageHelper(Logger log, Main main)
         {
