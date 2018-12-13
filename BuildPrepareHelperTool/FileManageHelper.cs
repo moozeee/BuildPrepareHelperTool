@@ -162,12 +162,26 @@ namespace BuildsPrepareTool
                 {
                     DeleteFolder(line);
                 }
+                DeleteAllFilesInFoldersWithinCurrentDirectory(LocalBuildPath);
             }
             else
             {
                 DeleteFolder(LocalBuildPath + @"\debug\");
             }
             _logger.WriteToConsole(@"Useless directories were successfully deleted. Going to Archive project to ZIP.");
+        }
+
+        private void DeleteAllFilesInFoldersWithinCurrentDirectory(string LocalBuildPath)
+        {
+            var RootDirectories = Directory.GetDirectories(LocalBuildPath);
+            foreach (string folder in RootDirectories)
+            {
+                var FolderForDeleting = new DirectoryInfo(folder);
+                foreach (FileInfo file in FolderForDeleting.GetFiles())
+                {
+                    file.Delete();
+                }
+            }
         }
 
         public void ClearFolderAfterZip(string LocalBuildPath)

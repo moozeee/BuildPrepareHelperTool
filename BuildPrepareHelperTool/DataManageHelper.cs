@@ -91,7 +91,6 @@ namespace BuildsPrepareTool
                         }
                         else
                         {
-
                             InReleasePathFolders = Directory.GetDirectories(ReleasePath + "\\Package_release\\");
                         }
                     }
