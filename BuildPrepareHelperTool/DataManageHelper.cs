@@ -1,4 +1,5 @@
 ﻿using BuildPrepareHelperTool;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -158,22 +159,45 @@ namespace BuildsPrepareTool
         public List<string> GetFinalDirectories(string path)
         {
             var buildFinalPaths = new List<string>();
-            var ProfilePath = path + @"\profile\Package_profile\"; //Tuple1
-            var ReleasePath = path + @"\release\Package_release\"; //Tuple2
-            var tempProfilePath = GetDirectoriesInside(ProfilePath);
-            var tempReleasePath = GetDirectoriesInside(ReleasePath);
-            if (tempProfilePath.Count == 1 && tempReleasePath.Count == 1)
+            var tempProfilePath = GetDirectoriesInside(path + @"\profile\Package_profile\");
+            var tempReleasePath = GetDirectoriesInside(path + @"\release\Package_release\");
+            if (tempProfilePath.Count > 1)
             {
-                ProfilePath = tempProfilePath.First();
-                ReleasePath = tempReleasePath.First();
-                buildFinalPaths.Add(ProfilePath);
-                buildFinalPaths.Add(ReleasePath);
+                try
+                {
+                    RemoveUselessFoldersFromDiretoriesArray(tempProfilePath);
+                    RemoveUselessFoldersFromDiretoriesArray(tempReleasePath);
+                }
+                catch(Exception e)
+                {
+                    _logger.WriteToConsole("There are too many folders in profile or release folders.");
+                }
+                
             }
-            else
-            {
-                _logger.WriteToConsole("There are too many folders in profile or release folders");
-            }
+            var ProfilePath = tempProfilePath.First();
+            var ReleasePath = tempReleasePath.First();
+            buildFinalPaths.Add(ProfilePath);
+            buildFinalPaths.Add(ReleasePath);
             return buildFinalPaths;
+        }
+
+        private void RemoveUselessFoldersFromDiretoriesArray(List<string> folderList)
+        {
+            List<string> stringsForDelete = new List<string>();
+            foreach (string str in folderList)
+            {
+                if (str.ToString().Contains("Core") || str.ToString().Contains("Debug"))
+                {
+                    stringsForDelete.Add(str);
+                }
+            }
+            if(stringsForDelete.Count > 0)
+            {
+                foreach (string strDel in stringsForDelete)
+                {
+                    folderList.Remove(strDel);
+                }
+            }
         }
 
         //Methods gets the list of directories inside the current path

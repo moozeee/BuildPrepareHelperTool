@@ -42,6 +42,11 @@ namespace BuildsPrepareTool
         public FinalBuildDirectoriesModel CreateFolders(string ProjectName, string name, string cdnPath, string basicLocalPath)
         {
             var projectName = _main._dHelper.GetNecessaryFolderName(ProjectName);
+            string additionalName = String.Empty;
+            if (projectName.Contains("Jigsaw"))
+            {
+                additionalName = "MSFTJigsaw_";
+            }
             var finalFolderName = ProjectName.Substring(ProjectName.LastIndexOf("\\") + 1);
             var projectVersion = "";
             var _finalStorageFolderPath = "";
@@ -58,7 +63,7 @@ namespace BuildsPrepareTool
             else
             {
                 projectVersion = name.Substring(name.LastIndexOf("_") + 1);
-                _finalStorageFolderPath = cdnPath + @"\" + projectName + @"\" + projectVersion + @"\" + finalFolderName;
+                _finalStorageFolderPath = cdnPath + @"\" + projectName + @"\" + additionalName + projectVersion + @"\" + finalFolderName;
             }
 
             _finalLocalFolderPath = _finalLocalFolderPath + "\\" +finalFolderName;
