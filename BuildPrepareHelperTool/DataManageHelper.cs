@@ -165,8 +165,8 @@ namespace BuildsPrepareTool
             {
                 try
                 {
-                    RemoveUselessFoldersFromDiretoriesArray(tempProfilePath);
-                    RemoveUselessFoldersFromDiretoriesArray(tempReleasePath);
+                    RemoveUselessFoldersFromDirectoriesArray(tempProfilePath);
+                    RemoveUselessFoldersFromDirectoriesArray(tempReleasePath);
                 }
                 catch(Exception e)
                 {
@@ -181,12 +181,12 @@ namespace BuildsPrepareTool
             return buildFinalPaths;
         }
 
-        private void RemoveUselessFoldersFromDiretoriesArray(List<string> folderList)
+        private void RemoveUselessFoldersFromDirectoriesArray(List<string> folderList)
         {
             List<string> stringsForDelete = new List<string>();
             foreach (string str in folderList)
             {
-                if (str.ToString().Contains("Core") || str.ToString().Contains("Debug"))
+                if (str.ToString().Contains("Core") || str.ToString().Contains("Debug") || str.ToString().Contains("UnitTest"))
                 {
                     stringsForDelete.Add(str);
                 }

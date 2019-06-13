@@ -177,10 +177,10 @@ namespace BuildPrepareHelperTool
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.Location = new System.Drawing.Point(16, 229);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(490, 13);
+            this.label3.Size = new System.Drawing.Size(496, 13);
             this.label3.TabIndex = 12;
-            this.label3.Text = "4 - Click PREPARE button and wait for a few minutes until progress bar become fil" +
-    "led";
+            this.label3.Text = "4 - Click PREPARE button and wait for a few minutes until progress bar becomes fi" +
+    "lled";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label4
