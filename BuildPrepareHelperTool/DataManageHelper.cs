@@ -167,37 +167,5 @@ namespace BuildsPrepareTool
             buildFinalPaths.Add(ReleasePath);
             return buildFinalPaths;
         }
-
-        private void RemoveUselessFoldersFromDirectoriesArray(List<string> folderList)
-        {
-            List<string> stringsForDelete = new List<string>();
-            foreach (string str in folderList)
-            {
-                if (str.ToString().Contains("Core") || str.ToString().Contains("Debug") || str.ToString().Contains("UnitTest"))
-                {
-                    stringsForDelete.Add(str);
-                }
-            }
-            if(stringsForDelete.Count > 0)
-            {
-                foreach (string strDel in stringsForDelete)
-                {
-                    folderList.Remove(strDel);
-                }
-            }
-        }
-
-        //Methods gets the list of directories inside the current path
-        public List<string> GetDirectoriesInside(string path)
-        {
-            var directories = Directory.GetDirectories(path, "*");
-            var CurrentBuildPath = new List<string>();
-            foreach (string item in directories)
-            {
-                CurrentBuildPath.Add(item);
-                //Logger(item);
-            }
-            return CurrentBuildPath;
-        }
     }
 }    
