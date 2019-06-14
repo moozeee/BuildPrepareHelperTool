@@ -11,8 +11,8 @@ namespace BuildsPrepareTool
     public class FileManageHelper
     {
         private Logger _logger;
-        //private DataManageHelper _dHelper;
         private Main _main;
+        public string _folderNamePart;
 
         public FileManageHelper(Logger log, Main main)
         {
@@ -24,6 +24,7 @@ namespace BuildsPrepareTool
         public void CopyFoldersToStorageAndLocally(string buildPath, string cdnPath, string basicLocalPath)
         {
             var fileName = _main._dHelper.GetNecessaryNameForStorage(buildPath);
+            _folderNamePart = fileName;
             var currentFolderModel = CreateFolders(buildPath, fileName, cdnPath, basicLocalPath);
             try
             {
@@ -34,7 +35,7 @@ namespace BuildsPrepareTool
             }
             catch (DirectoryNotFoundException e)
             {
-                _logger.WriteToConsole("Unfrotanutely, Current folder is not exist =( Choose another folder and try again");
+                _logger.WriteToConsole("Unfortunately, Current folder is not exist =( Choose another folder and try again");
             }
         }
 
@@ -112,8 +113,8 @@ namespace BuildsPrepareTool
             var baseDirectories = Directory.GetDirectories(LocalBuildPath, "*");
             foreach (string buildPath in baseDirectories)
             {
-                var inRootDiretories = Directory.GetDirectories(buildPath, "*");
-                foreach (string curDir in inRootDiretories)
+                var inRootDirectories = Directory.GetDirectories(buildPath, "*");
+                foreach (string curDir in inRootDirectories)
                 {
                     if (curDir.Contains("_Test"))
                     {

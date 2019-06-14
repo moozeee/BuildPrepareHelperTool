@@ -159,23 +159,10 @@ namespace BuildsPrepareTool
         public List<string> GetFinalDirectories(string path)
         {
             var buildFinalPaths = new List<string>();
-            var tempProfilePath = GetDirectoriesInside(path + @"\profile\Package_profile\");
-            var tempReleasePath = GetDirectoriesInside(path + @"\release\Package_release\");
-            if (tempProfilePath.Count > 1)
-            {
-                try
-                {
-                    RemoveUselessFoldersFromDirectoriesArray(tempProfilePath);
-                    RemoveUselessFoldersFromDirectoriesArray(tempReleasePath);
-                }
-                catch(Exception e)
-                {
-                    _logger.WriteToConsole("There are too many folders in profile or release folders.");
-                }
-                
-            }
-            var ProfilePath = tempProfilePath.First();
-            var ReleasePath = tempReleasePath.First();
+
+            var ProfilePath = path + @"\profile\Package_profile\" + _main._fHelper._folderNamePart + "_Profile_Test";
+            var ReleasePath = path + @"\release\Package_release\" + _main._fHelper._folderNamePart + "_Test";
+
             buildFinalPaths.Add(ProfilePath);
             buildFinalPaths.Add(ReleasePath);
             return buildFinalPaths;
