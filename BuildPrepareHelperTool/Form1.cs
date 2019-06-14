@@ -86,12 +86,6 @@ namespace BuildPrepareHelperTool
             FolderPathTextBox.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Test\";
         }
 
-        private void button2_Click(object sender, EventArgs e) { }
-        private void label1_Click(object sender, EventArgs e) { }
-        public void ConsoleField_TextChanged(object sender, EventArgs e) { }
-        public void CDNpath_TextChanged(object sender, EventArgs e){}
-        private void FolderPathTextBox_TextChanged(object sender, EventArgs e){}
-
         private void button1_Click_1(object sender, EventArgs e)
         {
             var folderDlg = new CommonOpenFileDialog();
@@ -104,30 +98,17 @@ namespace BuildPrepareHelperTool
             folderDlg.Dispose();
         }
 
+        private void button2_Click(object sender, EventArgs e) { }
+        private void label1_Click(object sender, EventArgs e) { }
+        public void ConsoleField_TextChanged(object sender, EventArgs e) { }
+        public void CDNpath_TextChanged(object sender, EventArgs e) { }
+        private void FolderPathTextBox_TextChanged(object sender, EventArgs e) { }
         private void progressBar1_Click(object sender, EventArgs e){}
-
         private void textBox1_TextChanged(object sender, EventArgs e){}
-
         private void FinishedFlag_Click(object sender, EventArgs e){}
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void label1_Click_1(object sender, EventArgs e){}
+        private void label2_Click(object sender, EventArgs e){}
+        private void pictureBox1_Click(object sender, EventArgs e){}
+        private void label3_Click(object sender, EventArgs e){}
     }
 }

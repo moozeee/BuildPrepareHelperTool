@@ -45,14 +45,14 @@ namespace BuildsPrepareTool
                     }
                     else
                     {
-                        _logger.WriteToConsole("Unfrotanutely, Current folder is empty =( Choose another folder and try again");
+                        _logger.WriteToConsole("Unfortunately, Current folder is empty =( Choose another folder and try again");
                         break;
                     }
                 }
             }
             catch (DirectoryNotFoundException e)
             {
-                _logger.WriteToConsole("Unfrotanutely, Current folder is empty =( Choose another folder and try again");
+                _logger.WriteToConsole("Unfortunately, Current folder is empty =( Choose another folder and try again");
                 return false;
             }
             return false;

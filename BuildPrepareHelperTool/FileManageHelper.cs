@@ -35,7 +35,8 @@ namespace BuildsPrepareTool
             }
             catch (DirectoryNotFoundException e)
             {
-                _logger.WriteToConsole("Unfortunately, Current folder is not exist =( Choose another folder and try again");
+                _logger.WriteToConsole(
+                    "Unfortunately, Current folder is not exist =( Choose another folder and try again");
             }
         }
 
